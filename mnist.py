@@ -48,15 +48,17 @@ model.add(MaxPool2D(pool_size=(2, 2)))
 model.add(Flatten())
 # 128 Neurons in Dense hiddenlayer
 model.add(Dense(128, activation='relu'))
-# classifier
+# classifier 
+# we have total 10 outputs, so output has 10 neurons and we use softmax
 model.add(Dense(10, activation='softmax'))
 model.compile(loss='categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
-print(model.summary())
+print(model.summary()) 
 
-#earlystoopint to prevent overfit
+# earlystoopint to prevent overfit
 early_stopping = EarlyStopping(monitor='val_loss',patience=2)
 model.fit(x_train,y_cat_train,epochs=10,validation_data=(x_test,y_cat_test),callbacks=[early_stopping])
 
+# to plot with validation accuracy
 losses = pd.DataFrame(model.history.history)
 losses[['accuracy','val_accuracy']].plot()
 
